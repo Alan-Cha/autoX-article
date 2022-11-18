@@ -4,19 +4,19 @@ Say you are building a cloud app. Clearly, you will unit test the app during dev
 
 What about testing your app when you deploy it in a Kubernetes cluster (test/dev/staging/prod)? Does the app handle realistic load conditions with acceptable performance? Does the new version of the app improve business metrics relative to the earlier version? Is it resilient?
 
-[Iter8](https://iter8.tools) is an open-source Kubernetes release optimizer that can help you get started with performance testing in seconds. With Iter8, you can perform various kinds of experiments, such as SLO validation, canary tests, A/B(/n) tests, and chaos injection tests, and use these experiments to discover which of your services is performing the best. These experiments are composed of various discrete tasks, which can perform different functions such as waiting for services to start, collecting metrics from services, and validating those metrics against SLOs, so you can customize experiments to fit your exact use case. All in all, Iter8 can help you get the most out of your Kubernetes apps and ML-models quickly and easily.
+[Iter8](https://iter8.tools) is an open-source Kubernetes release optimizer that can help you get started with testing of Kubernetes apps in seconds. With Iter8, you can perform various kinds of experiments, such as SLO validation, canary tests, A/B(/n) tests, and chaos injection tests, and use these experiments to discover which of your services is performing the best. These experiments are composed of various discrete tasks, which can perform different functions such as waiting for services to start, collecting metrics from services, and validating those metrics against SLOs, so you can customize experiments to fit your exact use case. All in all, Iter8 can help you get the most out of your Kubernetes apps and ML-models quickly and easily.
 
 Iter8 is now introducing a new feature: AutoX. AutoX, short for automatic experimentation, allows Iter8 to detect new versions of your services and automatically trigger new experiments, allowing you to tests your services as soon as you push out a new version. Under the covers, AutoX is leveraging [Argo CD](https://argo-cd.readthedocs.io), a popular GitOps continuous delivery tool, to start these automatic experiments. Thus, AutoX greatly expands on functionality that Iter8 already provides.
 
 In this article, we will explore automatically launching performance testing experiments for an HTTP service deployed in Kubernetes. At the end of this article, you should have everything you need to try out AutoX on your own!
 
-This tutorial will assume that you have some prior knowledge about Iter8. If you would like to see a basic tutorial about Iter8, see [here](https://knative.dev/blog/articles/performance-test-with-slos/).
+Before trying out the hands-on tutorial documented in this article, you may wish to familiarize yourself with Iter8 [here](https://knative.dev/blog/articles/performance-test-with-slos/).
 
 ### AutoX
 
 ![AutoX](images/autox.png)
 
-Earlier, we described AutoX as detecting new versions of your services and automatically triggering experiments. To be more exact, AutoX detects changes to a particular Kubernetes resource and will execute Iter8 experiments based on its labels. For example, AutoX can detect changes to a particular deployment and when a new version is pushed out, AutoX can spin up a new SLO test to see if the new version satisifies basic requirements.
+Earlier, we described AutoX as detecting new versions of your services and automatically triggering experiments. To be more exact, AutoX detects changes to a particular Kubernetes resource and will execute Iter8 experiments based on its labels. For example, AutoX can detect changes to a particular deployment and when a new version is pushed out, AutoX can spin up a new SLO test to see if the new version satisifies requirements.
 
 The input to AutoX is a trigger and a set of Helm charts. A trigger describes the Kubernetes resource object that Iter8 should watch and is a combination of name, namespace, and GVR (group, version, resource). When a matching resource is created, updated and delete, **and** has an `iter8.tools/autox-group` label (referred to as the AutoX label for the remainder of the article) then AutoX will begin to install or delete the Helm charts.
 
@@ -42,7 +42,7 @@ See [here](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-a
 
 ```bash
 brew tap iter8-tools/iter8
-brew install iter8@0.11
+brew install iter8@0.12
 ```
 
 See [here](https://iter8.tools/0.11/getting-started/install/) for alternate methods of installation.
