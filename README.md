@@ -16,11 +16,11 @@ Before trying out the hands-on tutorial documented in this article, you may wish
 
 ![AutoX](images/autox.png)
 
-Earlier, we described AutoX as detecting new versions of your services and automatically triggering experiments. To be more exact, AutoX detects changes to a particular set of labels from a particular Kubernetes resource and will execute Iter8 experiments based on those labels. For example, when a deployment is updated and its version label is bumped, AutoX can spin up a new SLO test to see if the new version satisifies requirements.
+Earlier, we described AutoX as detecting new versions of your services and automatically triggering experiments. To be more exact, AutoX detects changes to a particular set of labels from a particular Kubernetes resource and will execute experiments based on those labels. For example, when a deployment is updated and its version label is bumped, AutoX can spin up a new SLO test to see if the new version satisifies requirements.
 
 In order for AutoX to function, you must specify a trigger and a set of experiment charts. The trigger specifies the Kubernetes resource object that AutoX should watch and the experiment charts specify the Iter8 experiments AutoX should launch. 
 
-The trigger is a combination of name, namespace, and GVR (group, version, resource). When a particular set of labels of a matching resource is changed **and** the resource continues to have an `iter8.tools/autox-group` label (referred to as the AutoX label for the remainder of the article) then AutoX will launch the experiments. The labels that need to be changed are the following: `app.kubernetes.io/name"`, `app.kubernetes.io/version"`, `iter8.tools/track"`, and `autoXAdditionalValues` (referred to as the trigger labels for the remainder of the article).
+The trigger is a combination of name, namespace, and GVR (group, version, resource). When a particular set of labels of a matching resource is changed **and** the resource continues to have an `iter8.tools/autox-group` label (referred to as the AutoX label for the remainder of the article) then AutoX will launch the experiments. The labels that need to be changed are the following: `app.kubernetes.io/name"`, `app.kubernetes.io/version"`, and `iter8.tools/track"` (referred to as the trigger labels for the remainder of the article).
 
 The experiment charts come from [Iter8 Hub](https://github.com/iter8-tools/hub). Iter8 Hub primarily contains Iter8 experiments but it also contains other experiments such as Litmus-based chaos injection experiments.
 
@@ -176,7 +176,7 @@ Check to see if a new experiment should have started. Refer to [Observe automati
 
 ##### Discussion
 
-You can continue to modify the `httpbin` deployment to trigger new experiments. For example, you can continue to bump the `app.kubernetes.io/version` label to trigger the HTTP SLO validation test. Now it is easy to know if your app meets basic HTTP performance requirements.
+You can continue to modify the trigger labels of the `httpbin` deployment to trigger new experiments. For example, you can continue to bump the `app.kubernetes.io/version` label to trigger the HTTP SLO validation test. Now it is easy to know if your app meets basic HTTP performance requirements.
 
 It is possible to use AutoX to conduct more complex experiments. Iter8 experiments are composed from discrete tasks so you can design an experiment that best fits your use case. For example, instead of using the `httpbin` task, you can use `abn` task in order to run an A/B/n experiment. You can also run experiments that are not from Iter8. For example, there is also a experiment chart for a Litmus Chaos chaos experiment. Lastly, you can supply multiple experiments charts so AutoX will deploy a suite of experiments to run whenever you update your trigger resource.
 
