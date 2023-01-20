@@ -6,6 +6,11 @@ What about testing your app when you deploy it in a Kubernetes cluster (test/dev
 
 [Iter8](https://iter8.tools) is an open-source Kubernetes release optimizer that can help you get started with testing of Kubernetes apps in seconds. With Iter8, you can perform various kinds of experiments, such as SLO validation, canary tests, A/B(/n) tests, and chaos injection tests, and use these experiments to discover which of your services is performing the best. These experiments are composed of various discrete tasks, which can perform different functions such as waiting for services to start, collecting metrics from services, and validating those metrics against SLOs, so you can customize experiments to fit your exact use case. All in all, Iter8 can help you get the most out of your Kubernetes apps and ML-models quickly and easily.
 
+<!-- Can we still say this?
+  "AutoX, short for automatic experimentation, allows Iter8 to detect new versions of your services and automatically trigger new experiments, allowing you to tests your services as soon as you push out a new version."
+AutoX just starts new experiments if the trigger labels are updated.
+-->
+
 Iter8 is now introducing a new feature: AutoX. AutoX, short for automatic experimentation, allows Iter8 to detect new versions of your services and automatically trigger new experiments, allowing you to tests your services as soon as you push out a new version. Under the covers, AutoX is leveraging [Argo CD](https://argo-cd.readthedocs.io), a popular GitOps continuous delivery tool, to start these automatic experiments. Thus, AutoX greatly expands on functionality that Iter8 already provides.
 
 In this article, we will explore automatically launching performance testing experiments for an HTTP service deployed in Kubernetes. At the end of this article, you should have everything you need to try out AutoX on your own!
@@ -18,15 +23,22 @@ Before trying out the hands-on tutorial documented in this article, you may wish
 
 Earlier, we described AutoX as detecting new versions of your services and automatically triggering experiments. To be more exact, AutoX detects changes to a particular set of labels from a particular Kubernetes resource and will execute experiments based on those labels. For example, when a deployment is updated and its version label is bumped, AutoX can spin up a new SLO test to see if the new version satisifies requirements.
 
+<!-- 
+Is it clear: trigger vs trigger labels? Should triggers be called trigger resource instead?
+-->
+
 In order for AutoX to function, you must specify a trigger and a set of experiment charts. The trigger specifies the Kubernetes resource object that AutoX should watch and the experiment charts specify the Iter8 experiments AutoX should launch. 
 
 The trigger is a combination of name, namespace, and GVR (group, version, resource). When a particular set of labels of a matching resource is changed **and** the resource continues to have an `iter8.tools/autox-group` label (referred to as the AutoX label for the remainder of the article) then AutoX will launch the experiments. The labels that need to be changed are the following: `app.kubernetes.io/name"`, `app.kubernetes.io/version"`, and `iter8.tools/track"` (referred to as the trigger labels for the remainder of the article).
 
+<!-- 
+For trigger labels, do we really expect users to change any of the 3?
+Name label is immutable? Do we expect users to change the track label?
+
+If so, then it's really just the version label, right?
+-->
+
 The experiment charts come from [Iter8 Hub](https://github.com/iter8-tools/hub). Iter8 Hub primarily contains Iter8 experiments but it also contains other experiments such as Litmus-based chaos injection experiments.
-
-<!-- As mentioned previously, AutoX is utilizing Argo CD. Iter8 uses Argo CD to install these experiment charts. The Helm charts could contain an Iter8 experiment, which would allow automatic experimentation to occur. However, the Helm charts are not limited to just Iter8 experiments and could contain other things such as a Litmus Chaos chaos experiment. -->
-
-<!-- Different behaviors will occur based on what kind of change has occured on the watched Kubernetes resource object. If a change is made on a Kubernetes resource object that does not have the AutoX label, then nothing will happen. If a Kubernetes resource object with an AutoX label has been created or if a Kubernetes resource object has been modified to add an AutoX label, then the Helm charts will be installed. If a Kubernetes resource object with an AutoX label has been changed, then the Helm charts will be deleted and reinstalled. However, if part of the change is that the AutoX label was removed, then the charts will not be reinstalled. Lastly, if the Kubernetes resource object with an AutoX label is deleted, then the Helm charts will also be deleted. -->
 
 ![Flow chart](images/flowchart.png)
 
