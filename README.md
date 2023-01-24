@@ -176,6 +176,6 @@ It is possible to use AutoX to conduct more complex experiments. Iter8 experimen
 
 ### Takeaways
 
-AutoX, auto experimentation, is a powerful new feature of Iter8 that can let you automatically run performance tests on your Kubernetes services. Setting AutoX is straightforward and just requires specifying a trigger and the experiments you want to run. As you continue to iterate upon your services, you can get the latest performance statistics the moment they are updated, making testing a seamless operation.
+AutoX, short for auto experimentation, is a powerful new feature of Iter8 that can let you automatically run performance tests on your Kubernetes services. Setting AutoX is straightforward and just requires specifying a trigger and the experiments you want to run. As you continue to iterate upon your services, you can get the latest performance statistics the moment they are updated, making testing a seamless operation.
 
 After trying out the tutorial, consider trying it out on your own services. Please see the [Iter8 documentation](https://iter8.tools) for more information about AutoX, experiments, tasks, and much more! If you need any help, you can find us on [Slack](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw) where we are happy to answer any questions.
