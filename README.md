@@ -4,9 +4,9 @@ Say you are building a cloud app. Clearly, you will unit test the app during dev
 
 What about testing your app when you deploy it in a Kubernetes cluster (test/dev/staging/prod)? Does the app handle realistic load conditions with acceptable performance? Does the new version of the app improve business metrics relative to the earlier version? Is it resilient?
 
-[Iter8](https://iter8.tools) is an open-source Kubernetes release optimizer that can help you get started with testing of Kubernetes apps in seconds. With Iter8, you can perform various kinds of [experiments](https://iter8.tools/0.13/getting-started/concepts/#iter8-experiment), such as (i) performance testing to ensure that your application can handle realistic load and satisfy SLOs, (ii) A/B(/n) tests that help you split users across app versions, collect business metrics, identify the winning version of your app that optimizes business metrics, and promote the winning version, and (iii) chaos injection tests, and more. Additionally, these experiments are composed using [discrete tasks](https://iter8.tools/0.13/user-guide/tasks/abnmetrics/), which can perform a variety of functions, so you can design an experiment to best fit your use case.
+[Iter8](https://iter8.tools) is an open-source Kubernetes release optimizer that can help you get started with testing of Kubernetes apps in seconds. With Iter8, you can perform various kinds of [experiments](https://iter8.tools/0.13/getting-started/concepts/#iter8-experiment), such as (i) performance testing to ensure that your application can handle realistic load and satisfy SLOs, (ii) A/B(/n) tests that help you split users across app versions, collect business metrics, identify the winning version of your app that optimizes business metrics, and promote the winning version, and (iii) chaos injection tests, and more.
 
-Iter8 is now introducing a new feature: [AutoX](https://iter8.tools/0.13/tutorials/autox/autox/). AutoX, short for automatic experimentation, allows you to perform the above experiments automatically, using a few simple labels on your Kubernetes resources. For instance, you can use the AutoX feature to automatically validate new versions of your app, as they are deployed in the cluster. Under the covers, AutoX is leveraging [Argo CD](https://argo-cd.readthedocs.io), a popular GitOps continuous delivery tool, to launch these automatic experiments.
+Iter8 is now introducing a new feature: [AutoX](https://iter8.tools/0.13/tutorials/autox/autox/). AutoX, short for automatic experimentation, allows you to perform the above experiments automatically, using a few simple labels on your Kubernetes resources. For instance, you can use the AutoX feature to automatically validate new versions of your app, as they are deployed in the cluster. Under the covers, AutoX is leveraging [Argo CD](https://argo-cd.readthedocs.io), a popular GitOps continuous delivery tool, to launch these experiments.
 
 In this article, we will explore automatically launching performance testing experiments for an HTTP service deployed in Kubernetes. At the end of this article, you should have everything you need to try out AutoX on your own!
 
@@ -145,16 +145,16 @@ Latest observed values for metrics:
   -------                    | -----
   http/error-count           | 0.00
   http/error-rate            | 0.00
-  http/latency-max (msec)    | 25.11
-  http/latency-mean (msec)   | 5.59
-  http/latency-min (msec)    | 1.29
-  http/latency-p50 (msec)    | 4.39
-  http/latency-p75 (msec)    | 6.71
-  http/latency-p90 (msec)    | 10.40
-  http/latency-p95 (msec)    | 13.00
-  http/latency-p99 (msec)    | 25.00
-  http/latency-p99.9 (msec)  | 25.10
-  http/latency-stddev (msec) | 4.37
+  http/latency-max (msec)    | 12.01
+  http/latency-mean (msec)   | 5.46
+  http/latency-min (msec)    | 1.28
+  http/latency-p50 (msec)    | 5.09
+  http/latency-p75 (msec)    | 7.33
+  http/latency-p90 (msec)    | 8.90
+  http/latency-p95 (msec)    | 10.33
+  http/latency-p99 (msec)    | 12.00
+  http/latency-p99.9 (msec)  | 12.01
+  http/latency-stddev (msec) | 2.59
   http/request-count         | 100.00
 ```
 
@@ -163,7 +163,7 @@ Latest observed values for metrics:
 You can also produce an HTML report that you can view in the browser.
 
 ```bash
-iter8 k report -o html > report.html
+iter8 k report -g autox-httpbin-iter8 -o html > report.html
 ```
 
 The HTML report will look similar to the following:
