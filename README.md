@@ -191,8 +191,6 @@ If we were to continue to update the trigger (as well as the trigger labels), th
 
 ### More things you can do
 
-you can test anything, knative service, other kubernetes resources like kserve, ml models, can be post, send with payload
-
 Firstly, the HTTP SLO validation test is flexible, and you can augment it a number of ways, such as adding headers, providing a payload, or modulating the query rate. To learn more, see the [documentation](https://iter8.tools/0.13/user-guide/tasks/http/) for the `httpbin` task.
 
 AutoX can also watch any kind of Kubernetes resources, including CRDs such as KNative services or ML models. You are not required to watch deployments. 
@@ -207,6 +205,4 @@ Lastly, recall that you can provide multiple release groups and experiment specs
 
 ### Takeaways
 
-AutoX, short for automatic experimentation, is a powerful new feature of Iter8 that can let you automatically launch experiments on your Kubernetes applications. Configuring AutoX is straightforward and just requires specifying a trigger and the experiments you want to launch. As you update your apps, AutoX will help you get the latest performance statstics.
-
-After trying out the tutorial, consider trying it out on your own Kubernetes apps. Please see the [Iter8 documentation](https://iter8.tools) for more information about AutoX, experiments, tasks, and much more! If you need any help, you can find us on [Slack](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw) where we are happy to answer any questions.
+AutoX is a powerful new feature of Iter8 that lets you automatically launch performance experiments on your Kubernetes applications as soon as you update them. Configuring AutoX is straightforward too, and just requires specifying a trigger resource and the experiments you want to launch. After trying out the tutorial, consider trying it out on your own Kubernetes apps. Please see the [Iter8 documentation](https://iter8.tools) for more information about AutoX, experiments, tasks, and much more! If you need any help, you can find us on [Slack](https://join.slack.com/t/iter8-tools/shared_invite/zt-awl2se8i-L0pZCpuHntpPejxzLicbmw) where we are happy to answer any questions.
