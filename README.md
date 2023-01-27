@@ -45,7 +45,7 @@ kubectl expose deployment httpbin --port=80
 
 ##### Apply labels
 
-Currently, AutoX will not respond to changes to the `httpbin` deployment. In order to turn the deployment into a *trigger object*, we will assign it the `iter8.tools/autox=true` label (referred to as the AutoX label). Otherwise, AutoX will not relaunch experiments on behalf of this resource object.
+Currently, AutoX will not respond to changes to the `httpbin` deployment. In order to turn the deployment into a *trigger object*, we will assign it the `iter8.tools/autox=true` label (AutoX label). Otherwise, AutoX will not relaunch experiments on behalf of this resource object.
 
 ```bash
 kubectl label deployment httpbin iter8.tools/autox=true
@@ -53,7 +53,7 @@ kubectl label deployment httpbin iter8.tools/autox=true
 
 Next, we will assign it the `app.kubernetes.io/version` label (version label). AutoX will relaunch experiments when the version label changes.
 
-The purpose of this *version label check* is to ensure that AutoX does not relaunch experiments with every update to the trigger object. For example, AutoX should not relaunch experiments when only the `status` of the deployment changes.
+The purpose of this *version label check* is to ensure that AutoX does not relaunch experiments with every update to the trigger object. For example, AutoX should not relaunch experiments when only the `status` of a deployment changes.
 
 ```bash
 kubectl label deployment httpbin app.kubernetes.io/version=1.0.0
@@ -64,8 +64,7 @@ kubectl label deployment httpbin app.kubernetes.io/version=1.0.0
 Next, we will configure and install the AutoX controller.
 
 ```bash
-helm install --repo https://iter8-tools.github.io/hub/
-helm install autox iter8/autox --version 0.1.6 \
+helm install autox autox --repo https://iter8-tools.github.io/hub/ --version 0.1.6 \
 --set 'groups.httpbin.trigger.name=httpbin' \
 --set 'groups.httpbin.trigger.namespace=default' \
 --set 'groups.httpbin.trigger.group=apps' \
